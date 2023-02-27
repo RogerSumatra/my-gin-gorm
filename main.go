@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"my-gin-gorm/sdk/config"
+	"my-gin-gorm/sdk/sql"
 )
 
 func main() {
@@ -9,4 +11,17 @@ func main() {
 	if err := conf.Load(".env"); err != nil {
 		panic(err)
 	}
+	sqlConfig := sql.Config{
+		Username: conf.Get("DB_USERNAME"),
+		Password: conf.Get("DB_PASSWORD"),
+		Host:     conf.Get("DB_HOST"),
+		Port:     conf.Get("DB_PORT"),
+		Database: conf.Get("DB_DATABASE"),
+	}
+	_, err := sql.Init(sqlConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Database connected successfully")
 }

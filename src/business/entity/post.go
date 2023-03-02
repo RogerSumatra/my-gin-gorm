@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 type Post struct {
 	gorm.Model
@@ -13,4 +11,9 @@ type Post struct {
 type PostBody struct {
 	Title   string `json:"title" binding:"required"`
 	Content string `json:"content" binding:"required"`
+}
+
+type PostParam struct {
+	PostID int64 `uri:"post_id" gorm:"column:id"`
+	PaginationParam
 }

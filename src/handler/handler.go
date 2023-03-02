@@ -30,13 +30,17 @@ func (h *handler) registerRoutes() {
 	h.http.GET("/", h.ping)
 
 	v1 := h.http.Group("api/v1")
-	//POST
+
 	v1.POST("/post", h.createPost)
+	v1.GET("/post", h.getListPost)
+	v1.GET("/post/:post_id", h.getPost)
+	//v1.PUT("/post/:post_id", h.updatePost)
+	//v1.DELETE("/post/:post_id", h.deletePost)
 
 }
 
 func (h *handler) ping(ctx *gin.Context) {
-	h.SuccessResponse(ctx, http.StatusOK, "pong", nil)
+	h.SuccessResponse(ctx, http.StatusOK, "pong", nil, nil)
 }
 
 func (h *handler) Run() {

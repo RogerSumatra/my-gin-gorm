@@ -34,7 +34,7 @@ func (h *handler) registerRoutes() {
 	v1.POST("/post", h.createPost)
 	v1.GET("/post", h.getListPost)
 	v1.GET("/post/:post_id", h.getPost)
-	//v1.PUT("/post/:post_id", h.updatePost)
+	v1.PUT("/post/:post_id", h.updatePost)
 	//v1.DELETE("/post/:post_id", h.deletePost)
 
 }

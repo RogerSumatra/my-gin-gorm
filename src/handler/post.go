@@ -82,7 +82,7 @@ func (h *handler) getPost(ctx *gin.Context) {
 	// }
 
 	var post entity.Post
-	if err := h.db.Model(&post).Where(&postParam).Error; err != nil {
+	if err := h.db.Model(&post).Where(&postParam).First(&post).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, "couldn't get post", nil)
 		return
 	}
@@ -92,5 +92,26 @@ func (h *handler) getPost(ctx *gin.Context) {
 }
 
 func (h *handler) updatePost(ctx *gin.Context) {
+	var postParam entity.PostParam
+	if err := h.BindParam(ctx, &postParam); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
+		return
+	}
 
+	var postBody entity.PostBody
+	if err := h.BindBody(ctx, &postBody); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "bad request", nil)
+		return
+	}
+
+	var post entity.Post
+	post.ID = uint(postParam.PostID)
+	post.Title = postBody.Title
+	post.Content = postBody.Content
+
+	if err := h.db.Model(post).Where(postParam).Updates(&post).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "post update failed", nil)
+	}
+
+	h.SuccessResponse(ctx, http.StatusOK, "update post success", post, nil)
 }

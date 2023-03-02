@@ -2,6 +2,8 @@ package entity
 
 import "gorm.io/gorm"
 
+//selfnote = tambah column variabel Post dan PostBody harus sama, format sesuai masing-masing
+
 type Post struct {
 	gorm.Model
 	Title   string `json:"title" gorm:"type:varchar(255)"`

@@ -36,3 +36,5 @@ func (h *handler) BindParam(c *gin.Context, param interface{}) error {
 
 	return c.ShouldBindWith(param, binding.Query)
 }
+
+//testtt

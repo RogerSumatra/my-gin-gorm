@@ -13,8 +13,9 @@ import (
 )
 
 func (h *handler) signUp(ctx *gin.Context) {
-	//get email & pass
+	//get username email & pass
 	var body struct {
+		Username string
 		Email    string
 		Password string
 	}
@@ -29,7 +30,7 @@ func (h *handler) signUp(ctx *gin.Context) {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to hash password", nil)
 	}
 	//create the user
-	user := entity.User{Email: body.Email, Password: string(hash)}
+	user := entity.User{Username: body.Username, Email: body.Email, Password: string(hash)}
 
 	if err := h.db.Create(&user).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to create user", nil)
@@ -55,7 +56,7 @@ func (h *handler) login(ctx *gin.Context) {
 	h.db.First(&user, "email = ?", body.Email)
 
 	if user.ID == 0 {
-		h.ErrorResponse(ctx, http.StatusBadRequest, "invaild email or password", nil)
+		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid email or password", nil)
 		return
 	}
 	//compare sent in pass with saved pass hash

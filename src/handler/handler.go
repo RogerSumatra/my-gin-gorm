@@ -30,7 +30,6 @@ func (h *handler) registerRoutes() {
 	h.http.GET("/", h.ping)
 
 	v1 := h.http.Group("api/v1")
-	v2 := h.http.Group("api/v2")
 
 	v1.POST("/post", h.createPost)
 	v1.GET("/post", h.getListPost)
@@ -38,9 +37,9 @@ func (h *handler) registerRoutes() {
 	v1.PUT("/post/:post_id", h.updatePost)
 	v1.DELETE("/post/:post_id", h.deletePost)
 
-	v2.POST("/signup", h.signUp)
-	v2.POST("/login", h.login)
-	v2.GET("/validate", h.RequiredAuth, h.validate)
+	v1.POST("/signup", h.signUp)
+	v1.POST("/login", h.login)
+	v1.GET("/validate", h.RequiredAuth, h.validate)
 
 }
 

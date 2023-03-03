@@ -28,10 +28,10 @@ func main() {
 	fmt.Println("Database connected successfully")
 
 	db := sql.GetInstance()
-	db.AutoMigrate(entity.Post{})
+	db.AutoMigrate(entity.Post{}) //tabel data studio (kayaknya)
+	db.AutoMigrate(entity.User{}) //tabel akun
 
 	handler := handler.Init(conf, db)
 	handler.Run()
 
-	//test
 }

@@ -39,6 +39,7 @@ func (h *handler) registerRoutes() {
 	v1.DELETE("/post/:post_id", h.deletePost)
 
 	v2.POST("/signup", h.signUp)
+	v2.POST("/login", h.login)
 
 }
 

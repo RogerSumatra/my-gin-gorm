@@ -40,6 +40,7 @@ func (h *handler) registerRoutes() {
 
 	v2.POST("/signup", h.signUp)
 	v2.POST("/login", h.login)
+	v2.GET("/validate", h.RequiredAuth, h.validate)
 
 }
 

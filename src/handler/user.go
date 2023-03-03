@@ -84,3 +84,12 @@ func (h *handler) login(ctx *gin.Context) {
 	//sent back
 	h.SuccessResponse(ctx, http.StatusOK, "", nil, nil)
 }
+
+func (h *handler) validate(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": user,
+	})
+	//h.SuccessResponse(ctx, http.StatusOK, user, nil, nil)
+}

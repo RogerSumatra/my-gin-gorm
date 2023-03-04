@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"my-gin-gorm/middleware"
 )
 
 type handler struct {
@@ -39,7 +40,7 @@ func (h *handler) registerRoutes() {
 
 	v1.POST("/signup", h.signUp)
 	v1.POST("/login", h.login)
-	v1.GET("/validate", h.RequiredAuth, h.validate)
+	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 
 }
 

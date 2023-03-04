@@ -1,4 +1,4 @@
-package sql
+package database
 
 import (
 	"fmt"
@@ -6,6 +6,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+
+	"my-gin-gorm/sdk/config"
+	"my-gin-gorm/src/business/entity"
 )
 
 type Interface interface {
@@ -24,23 +27,26 @@ type sql struct {
 	Db *gorm.DB
 }
 
-func Init(config Config) (Interface, error) {
+func Init(conf config.Interface) (Interface, error) {
+
 	sql := sql{}
 
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config.Username,
-		config.Password,
-		config.Host,
-		config.Port,
-		config.Database,
+		conf.Get("DB_USERNAME"),
+		conf.Get("DB_PASSWORD"),
+		conf.Get("DB_HOST"),
+		conf.Get("DB_PORT"),
+		conf.Get("DB_DATABASE"),
 	)
+	
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		return nil, err
 	}
+	db.AutoMigrate(entity.Post{}, entity.User{}) 
 	sql.Db = db
 
 	return &sql, nil

@@ -43,6 +43,7 @@ func (h *handler) registerRoutes() {
 	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 
+
 }
 
 func (h *handler) ping(ctx *gin.Context) {

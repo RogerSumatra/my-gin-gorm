@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"my-gin-gorm/sdk/config"
 	"my-gin-gorm/database"
+	"my-gin-gorm/sdk/config"
 	"my-gin-gorm/src/handler"
+
 )
 
 func main() {
-
-	
 
 	conf := config.Init()
 	if err := conf.Load(".env"); err != nil {

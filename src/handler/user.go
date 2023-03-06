@@ -61,7 +61,7 @@ func (h *handler) login(ctx *gin.Context) {
 	}
 	//compare sent in pass with saved pass hash
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password)); err != nil {
-		h.ErrorResponse(ctx, http.StatusBadRequest, "invaild email or password", nil)
+		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid email or password", nil)
 		return
 	}
 	//generate a jwt token
@@ -84,8 +84,7 @@ func (h *handler) login(ctx *gin.Context) {
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "success",
-		"token" : tokenString,
+		"token": tokenString,
 	})
 }
 

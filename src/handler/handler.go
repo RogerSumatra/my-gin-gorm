@@ -5,9 +5,10 @@ import (
 	"my-gin-gorm/sdk/config"
 	"net/http"
 
+	"my-gin-gorm/middleware"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"my-gin-gorm/middleware"
 )
 
 type handler struct {
@@ -32,20 +33,20 @@ func (h *handler) registerRoutes() {
 
 	v1 := h.http.Group("api/v1")
 
-	v1.POST("/post", h.createPost)
-	v1.GET("/post", h.getListPost)
-	v1.GET("/post/:post_id", h.getPost)
-	v1.PUT("/post/:post_id", h.updatePost)
-	v1.DELETE("/post/:post_id", h.deletePost)
+	v1.POST("/studio", h.createStudio)
+	v1.GET("/studio", h.getListStudio)
+	v1.GET("/studio/:studio_id", h.getStudio)
+	v1.PUT("/studio/:studio_id", h.updateStudio)
+	v1.DELETE("/studio/:studio_id", h.deleteStudio)
 
-	v1.POST("/signup", h.signUp)
-	v1.POST("/login", h.login)
+	v1.POST("/user/signup", h.signUp)
+	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 
 }
 
 func (h *handler) ping(ctx *gin.Context) {
-	h.SuccessResponse(ctx, http.StatusOK, "pong", nil, nil)
+	h.SuccessResponse(ctx, http.StatusOK, "pong", nil)
 }
 
 func (h *handler) Run() {

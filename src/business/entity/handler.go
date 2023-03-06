@@ -3,10 +3,10 @@ package entity
 import "math"
 
 type HTTPResponse struct {
-	Message    string           `json:"message"`
-	IsSuccess  bool             `json:"isSuccess"`
-	Data       interface{}      `json:"data"`
-	Pagination *PaginationParam `json:"pagination"`
+	Message   string      `json:"message"`
+	IsSuccess bool        `json:"isSuccess"`
+	Data      interface{} `json:"data"`
+	// Pagination *PaginationParam `json:"pagination"`
 }
 
 type PaginationParam struct {

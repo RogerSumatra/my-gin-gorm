@@ -38,7 +38,7 @@ func (h *handler) signUp(ctx *gin.Context) {
 	}
 
 	//respond
-	h.SuccessResponse(ctx, http.StatusOK, "user created successfully", nil, nil)
+	h.SuccessResponse(ctx, http.StatusOK, "user created successfully", nil)
 }
 
 func (h *handler) login(ctx *gin.Context) {
@@ -83,7 +83,10 @@ func (h *handler) login(ctx *gin.Context) {
 	ctx.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 
 	//sent back
-	h.SuccessResponse(ctx, http.StatusOK, "", nil, nil)
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "success",
+		"token" : tokenString,
+	})
 }
 
 func (h *handler) validate(ctx *gin.Context) {

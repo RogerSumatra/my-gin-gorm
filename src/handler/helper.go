@@ -7,21 +7,20 @@ import (
 	"github.com/gin-gonic/gin/binding"
 )
 
-func (h *handler) SuccessResponse(c *gin.Context, code int64, message string, data interface{}, pagination *entity.PaginationParam) {
+func (h *handler) SuccessResponse(c *gin.Context, code int64, message string, data interface{}) {
 	c.JSON(int(code), entity.HTTPResponse{
-		Message:    message,
-		IsSuccess:  true,
-		Data:       data,
-		Pagination: pagination,
+		Message:   message,
+		IsSuccess: true,
+		Data:      data,
+		// Pagination: pagination,
 	})
 }
 
 func (h *handler) ErrorResponse(c *gin.Context, code int64, message string, data interface{}) {
 	c.JSON(int(code), entity.HTTPResponse{
-		Message:    message,
-		IsSuccess:  false,
-		Data:       data,
-		Pagination: nil,
+		Message:   message,
+		IsSuccess: false,
+		Data:      data,
 	})
 }
 

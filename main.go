@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+
+	
+
 	conf := config.Init()
 	if err := conf.Load(".env"); err != nil {
 		panic(err)

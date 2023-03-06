@@ -39,14 +39,14 @@ func Init(conf config.Interface) (Interface, error) {
 		conf.Get("DB_PORT"),
 		conf.Get("DB_DATABASE"),
 	)
-	
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.Post{}, entity.User{}) 
+	db.AutoMigrate(entity.Studio{}, entity.User{})
 	sql.Db = db
 
 	return &sql, nil

@@ -94,5 +94,4 @@ func (h *handler) validate(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": user,
 	})
-	//h.SuccessResponse(ctx, http.StatusOK, user, nil, nil)
 }

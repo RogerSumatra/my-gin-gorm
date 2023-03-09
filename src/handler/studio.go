@@ -18,7 +18,7 @@ func (h *handler) createStudio(ctx *gin.Context) {
 	var studio entity.Studio
 
 	studio.Name = studioBody.Name
-	studio.Description = studioBody.Description
+	//tambah
 
 	if err := h.db.Create(&studio).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
@@ -42,6 +42,7 @@ func (h *handler) getListStudio(ctx *gin.Context) {
 	var studios []entity.Studio
 
 	if err := h.db.
+		//Preload
 		Model(entity.Studio{}).
 		Limit(int(studioParam.Limit)).
 		Offset(int(studioParam.Offset)).
@@ -75,12 +76,6 @@ func (h *handler) getStudio(ctx *gin.Context) {
 		return
 	}
 
-	// var PostPayLoad entity.PostBody
-	// if err := h.BindBody(ctx, &PostPayLoad); err != nil {
-	// 	h.ErrorResponse(ctx, http.StatusBadRequest, "bad request", nil)
-	// 	return
-	// }
-
 	var studio entity.Studio
 	if err := h.db.Model(&studio).Where(&studioParam).First(&studio).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, "couldn't get studio data", nil)
@@ -107,7 +102,6 @@ func (h *handler) updateStudio(ctx *gin.Context) {
 	var studio entity.Studio
 	studio.ID = uint(studioParam.StudioID)
 	studio.Name = studioBody.Name
-	studio.Description = studioBody.Description
 
 	if err := h.db.Model(studio).Where(studioParam).Updates(&studio).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, "studio data update failed", nil)

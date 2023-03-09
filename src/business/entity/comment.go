@@ -4,7 +4,8 @@ import "gorm.io/gorm"
 
 type Comment struct {
 	gorm.Model
-	StudioID uint `json:"studio_id"`
-	Content string `json:"content"`
-	UserID uint `json:"user_id"`
+	StudioID uint    
+	Content  string  `json:"content" gorm:"type:text"`
+	UserID   uint    
+	Rating   float32 `json:"rating"`
 }

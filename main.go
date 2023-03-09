@@ -25,4 +25,6 @@ func main() {
 	handler := handler.Init(conf, sql.GetInstance())
 	handler.Run()
 
+	
+
 }

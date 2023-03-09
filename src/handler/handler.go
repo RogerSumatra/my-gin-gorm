@@ -33,16 +33,35 @@ func (h *handler) registerRoutes() {
 
 	v1 := h.http.Group("api/v1")
 
+	//for studio
 	v1.POST("/studio", h.createStudio)
 	v1.GET("/studio", h.getListStudio)
 	v1.GET("/studio/:studio_id", h.getStudio)
 	v1.PUT("/studio/:studio_id", h.updateStudio)
 	v1.DELETE("/studio/:studio_id", h.deleteStudio)
 
+	//for user
 	v1.POST("/user/signup", h.signUp)
 	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 
+	//for comment
+	// v1.POST("/studio", h.createStudio)
+	// v1.GET("/studio", h.getListStudio)
+	// v1.GET("/studio/:studio_id", h.getStudio)
+	// v1.PUT("/studio/:studio_id", h.updateStudio)
+	// v1.DELETE("/studio/:studio_id", h.deleteStudio)
+
+	//for facility
+	// v1.POST("/studio", h.createStudio)
+	// v1.GET("/studio", h.getListStudio)
+	// v1.GET("/studio/:studio_id", h.getStudio)
+	// v1.PUT("/studio/:studio_id", h.updateStudio)
+	// v1.DELETE("/studio/:studio_id", h.deleteStudio)
+
+	//supabase
+	//v1.POST("/upload", h.uploadFile)
+	// v1.DELETE("/delete", h.deleteFile)
 
 }
 

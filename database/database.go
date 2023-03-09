@@ -46,7 +46,7 @@ func Init(conf config.Interface) (Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.Studio{}, entity.User{})
+	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{})
 	sql.Db = db
 
 	return &sql, nil

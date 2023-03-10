@@ -18,6 +18,7 @@ func (h *handler) signUp(ctx *gin.Context) {
 		Username string
 		Email    string
 		Password string
+		Picture  string
 	}
 
 	if err := h.BindBody(ctx, &body); err != nil {
@@ -94,4 +95,26 @@ func (h *handler) validate(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": user,
 	})
+}
+
+func (h *handler) getUser(ctx *gin.Context) {
+	var userParam entity.UserParam
+
+	if err := h.BindParam(ctx, &userParam); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
+		return
+	}
+
+	var user entity.User
+	if err := h.db.Model(&user).Where(&userParam).First(&user).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "couldn't get user data", nil)
+		return
+	}
+
+	//h.SuccessResponse(ctx, http.StatusOK, "user data found", user)
+	ctx.JSON(http.StatusOK, gin.H{
+		"message":  "user data found",
+		"username": user.Username,
+	})
+
 }

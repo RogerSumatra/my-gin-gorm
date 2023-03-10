@@ -44,16 +44,17 @@ func (h *handler) registerRoutes() {
 	v1.POST("/user/signup", h.signUp)
 	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
+	v1.GET("/user/:user_id", h.getUser)
 
 	//for comment
-	// v1.POST("/studio", h.createStudio)
-	// v1.GET("/studio", h.getListStudio)
-	// v1.GET("/studio/:studio_id", h.getStudio)
-	// v1.PUT("/studio/:studio_id", h.updateStudio)
-	// v1.DELETE("/studio/:studio_id", h.deleteStudio)
+	v1.POST("/comment", h.createComment)
+	v1.GET("/comment", h.getListComment)
+	//v1.GET("/studio/:studio_id", h.getStudio)
+	v1.PUT("/comment/:comment_id", h.updateComment)
+	v1.DELETE("/comment/:comment_id", h.deleteComment)
 
 	//for facility
-	// v1.POST("/studio", h.createStudio)
+	// v1.POST("/facility", h.createStudio)
 	// v1.GET("/studio", h.getListStudio)
 	// v1.GET("/studio/:studio_id", h.getStudio)
 	// v1.PUT("/studio/:studio_id", h.updateStudio)

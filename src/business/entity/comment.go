@@ -5,9 +5,9 @@ import "gorm.io/gorm"
 type Comment struct {
 	gorm.Model
 	StudioID uint    //`json:"studio_id"`
-	Studio Studio 	`gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Studio   Studio  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	UserID   uint    //`json:"user_id"`
-	User User //belongs to
+	User     User    //belongs to
 	Content  string  `json:"content" gorm:"type:text"`
 	Rating   float32 `json:"rating"`
 }

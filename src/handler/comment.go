@@ -68,7 +68,7 @@ func (h *handler) getListComment(ctx *gin.Context) {
 
 func (h *handler) updateComment(ctx *gin.Context) {
 	var commentParam entity.CommentParam
-	if err := h.BindBody(ctx, &commentParam); err != nil {
+	if err := h.BindParam(ctx, &commentParam); err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
 		return
 	}
@@ -81,7 +81,10 @@ func (h *handler) updateComment(ctx *gin.Context) {
 
 	var comment entity.Comment
 	comment.ID = uint(commentParam.CommentID)
+	// comment.UserID = commentBody.UserID
+	// comment.StudioID = commentBody.StudioID
 	comment.Content = commentBody.Content
+	comment.Rating = commentBody.Rating
 
 	if err := h.db.Model(comment).Where(commentParam).Updates(&comment).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, "update comment failed", nil)

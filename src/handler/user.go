@@ -16,7 +16,6 @@ func (h *handler) signUp(ctx *gin.Context) {
 	//get username email & pass
 	var body struct {
 		Username  string
-		ShortName string
 		Email     string
 		Password  string
 		Picture   string
@@ -86,11 +85,10 @@ func (h *handler) login(ctx *gin.Context) {
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
-		"username":  user.Username,
-		"shortName": user.ShortName,
-		"email":     user.Email,
-		"balance":   user.Balance,
-		"token":     tokenString,
+		"username": user.Username,
+		"email":   user.Email,
+		"balance": user.Balance,
+		"token":   tokenString,
 	})
 }
 

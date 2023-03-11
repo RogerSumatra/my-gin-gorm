@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Studio struct {
 	gorm.Model
 	Name    string  `json:"name" gorm:"type:varchar(255); NOT NULL"`
-	Price   float64 `json:"price" gorm:"type:"`
+	Price   float64 `json:"price"`
 	Regency string  `json:"regency" gorm:"type:varchar(255); NOT NULL"`
 	City    string  `json:"city" gorm:"type:varchar(255) NOT NULL"`
 	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto. supabase bingung

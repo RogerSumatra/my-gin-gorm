@@ -82,8 +82,8 @@ func (h *handler) updateComment(ctx *gin.Context) {
 
 	var comment entity.Comment
 	comment.ID = uint(commentParam.CommentID)
-	// comment.UserID = commentBody.UserID
-	// comment.StudioID = commentBody.StudioID
+	comment.UserID = commentBody.UserID
+	comment.StudioID = commentBody.StudioID
 	comment.Content = commentBody.Content
 	comment.Rating = commentBody.Rating
 

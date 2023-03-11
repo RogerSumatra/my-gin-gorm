@@ -9,8 +9,8 @@ type Studio struct {
 	Regency  string    `json:"regency" gorm:"type:varchar(255); NOT NULL"`
 	City     string    `json:"city" gorm:"type:varchar(255) NOT NULL"`
 	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto. supabase bingung
-	Facility Facility  //1 studio 1 facility
-	Comments []Comment //1 studio banyak comment
+	Facility Facility  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`//1 studio 1 facility
+	Comments []Comment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`//1 studio banyak comment
 }
 
 type StudioBody struct {

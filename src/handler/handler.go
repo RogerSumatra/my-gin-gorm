@@ -49,16 +49,13 @@ func (h *handler) registerRoutes() {
 	//for comment
 	v1.POST("/comment", h.createComment)
 	v1.GET("/comment", h.getListComment)
-	//v1.GET("/studio/:studio_id", h.getStudio)
 	v1.PUT("/comment/:comment_id", h.updateComment)
 	v1.DELETE("/comment/:comment_id", h.deleteComment)
 
 	//for facility
-	// v1.POST("/facility", h.createStudio)
-	// v1.GET("/studio", h.getListStudio)
-	// v1.GET("/studio/:studio_id", h.getStudio)
-	// v1.PUT("/studio/:studio_id", h.updateStudio)
-	// v1.DELETE("/studio/:studio_id", h.deleteStudio)
+	v1.POST("/facility", h.createFacility)
+	v1.PUT("/facility/:facility_id", h.updateFacility)
+	
 
 	//supabase
 	//v1.POST("/upload", h.uploadFile)

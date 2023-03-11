@@ -24,6 +24,7 @@ func (h *handler) createComment(ctx *gin.Context) {
 
 	if err := h.db.Create(&comment).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
 	}
 
 	h.SuccessResponse(ctx, http.StatusOK, "comment created successfully", nil)

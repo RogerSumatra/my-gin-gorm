@@ -32,7 +32,7 @@ func (h *handler) signUp(ctx *gin.Context) {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to hash password", nil)
 	}
 	//create the user
-	user := entity.User{Username: body.Username, ShortName: body.ShortName, Email: body.Email, Password: string(hash)}
+	user := entity.User{Username: body.Username, Email: body.Email, Password: string(hash)}
 
 	if err := h.db.Create(&user).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to create user", nil)
@@ -86,11 +86,11 @@ func (h *handler) login(ctx *gin.Context) {
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
-		"username":   user.Username,
+		"username":  user.Username,
 		"shortName": user.ShortName,
-		"email":      user.Email,
-		"balance":    user.Balance,
-		"token":      tokenString,
+		"email":     user.Email,
+		"balance":   user.Balance,
+		"token":     tokenString,
 	})
 }
 

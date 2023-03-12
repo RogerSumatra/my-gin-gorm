@@ -67,8 +67,6 @@ func (h *handler) registerRoutes() {
 	//supabase
 	//r := h.http
 
-
-
 	v1.POST("/upload", func(ctx *gin.Context) {
 		file, err := ctx.FormFile("avatar")
 		if err != nil {
@@ -83,11 +81,25 @@ func (h *handler) registerRoutes() {
 		ctx.JSON(200, gin.H{"data": link})
 	})
 
-	v1.DELETE("file", func(ctx *gin.Context) {
-		linkFile := ctx.Request.FormValue("linkfile")
-		fmt.Println(linkFile)
+	type Input struct {
+		LinkFile string `json:"link_file"`
+	}
 
-		data, err := supClient.DeleteFile(linkFile)
+	v1.DELETE("/delete", func(ctx *gin.Context) {
+		var file Input
+		if err := ctx.BindJSON(&file); err != nil {
+			ctx.JSON(http.StatusUnprocessableEntity, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+
+		data, err := supClient.DeleteFile(file.LinkFile)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+		}
 
 		if err != nil {
 			ctx.JSON(500, gin.H{"data": err.Error()})

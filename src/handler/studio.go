@@ -18,8 +18,8 @@ func (h *handler) createStudio(ctx *gin.Context) {
 	var studio entity.Studio
 
 	studio.Name = studioBody.Name
-	studio.Regency = studioBody.Regency
-	studio.City = studioBody.City
+	//studio.Regency = studioBody.Regency
+	//studio.City = studioBody.City
 	studio.Price = studioBody.Price
 	//tambah
 
@@ -109,8 +109,8 @@ func (h *handler) updateStudio(ctx *gin.Context) {
 	var studio entity.Studio
 	studio.ID = uint(studioParam.StudioID)
 	studio.Name = studioBody.Name
-	studio.Regency = studioBody.Regency
-	studio.City = studioBody.City
+	//studio.Regency = studioBody.Regency
+	// studio.City = studioBody.City
 	studio.Price = studioBody.Price
 
 	if err := h.db.Model(studio).Where(studioParam).Updates(&studio).Error; err != nil {

@@ -86,7 +86,7 @@ func (h *handler) login(ctx *gin.Context) {
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
 		"username":  user.Username,
-		"shortName": user.ShortName,
+		//"shortName": user.ShortName,
 		"email":     user.Email,
 		"balance":   user.Balance,
 		"token":     tokenString,

@@ -47,11 +47,14 @@ func Init(conf config.Interface) (Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Regency{}, &entity.Province{})
+	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{})
 	sql.Db = db
 
 	if err := seed.SeedProvince(sql.Db); err != nil {
-		panic("Set Seed Failed")
+		panic("Set Province Seed Failed")
+	}
+	if err := seed.SeedRegency(sql.Db); err != nil {
+		panic("Set Regency Seed Failed")
 	}
 
 	return &sql, nil

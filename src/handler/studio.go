@@ -22,8 +22,14 @@ func (h *handler) createStudio(ctx *gin.Context) {
 
 	//find related
 	var province []entity.Province
+	var regency []entity.Regency
 	if err := h.db.Find(&province, studioBody.ProvinceID).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "province not found", nil)
+		return
+	}
+
+	if err := h.db.Find(&regency, studioBody.RegencyID).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "regency not found", nil)
 		return
 	}
 
@@ -35,6 +41,11 @@ func (h *handler) createStudio(ctx *gin.Context) {
 	//add to studio
 	if err := h.db.Model(&studio).Association("Province").Append(province); err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, "province failed to add", nil)
+		return
+	}
+
+	if err := h.db.Model(&studio).Association("Regency").Append(regency); err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "regency failed to add", nil)
 		return
 	}
 
@@ -56,6 +67,7 @@ func (h *handler) getListStudio(ctx *gin.Context) {
 
 	if err := h.db.
 		Preload("Province").
+		Preload("Regency").
 		Model(entity.Studio{}).
 		Limit(int(studioParam.Limit)).
 		Offset(int(studioParam.Offset)).
@@ -93,6 +105,7 @@ func (h *handler) getStudio(ctx *gin.Context) {
 	if err := h.db.
 		Preload("Comments").
 		Preload("Province").
+		Preload("Regency").
 		Model(&studio).
 		Where(&studioParam).
 		First(&studio).Error; err != nil {

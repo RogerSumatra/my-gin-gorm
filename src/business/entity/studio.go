@@ -8,7 +8,7 @@ type Studio struct {
 	Price    float64    `json:"price"`
 	Regency  []Regency  `gorm:"many2many:studio_regency;"`
 	Province []Province `gorm:"many2many:studio_province;"`
-	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto. supabase bingung
+	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto
 	Facility Facility  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio 1 facility
 	Comments []Comment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio banyak comment
 }
@@ -16,8 +16,9 @@ type Studio struct {
 type StudioBody struct {
 	Name       string  `json:"name" binding:"required"`
 	Price      float64 `json:"price" binding:"required"`
-	ProvinceID []uint  `json:"provinceID" binding:"required"` 
-	//Picture string `json:"picture" binding:"required"` //link foto. supabase bingung
+	ProvinceID []uint  `json:"provinceID" binding:"required"`
+	RegencyID  []uint  `json:"regencyID" binding:"required"`
+	//Picture string `json:"picture" binding:"required"` //link foto
 }
 
 type StudioParam struct {

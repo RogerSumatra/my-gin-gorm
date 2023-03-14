@@ -29,3 +29,45 @@ func SeedProvince(sql *gorm.DB) error {
 	}
 	return nil
 }
+
+func SeedRegency(sql *gorm.DB) error {
+	var regency []entity.Regency
+
+	if err := sql.First(&regency).Error; err != gorm.ErrRecordNotFound {
+		return err
+	}
+	regency = []entity.Regency{
+		{
+			Name: entity.MalangRegency,
+		},
+		{
+			Name: entity.SurabayaRegency,
+		},
+		{
+			Name: entity.BatuRegency,
+		},
+		{
+			Name: entity.SemarangRegency,
+		},
+		{
+			Name: entity.SoloRegency,
+		},
+		{
+			Name: entity.MagelangRegency,
+		},
+		{
+			Name: entity.BandungRegency,
+		},
+		{
+			Name: entity.CimahiRegency,
+		},
+		{
+			Name: entity.BekasiRegency,
+		},		
+	}
+
+	if err := sql.Create(&regency).Error; err != nil {
+		return err
+	}
+	return nil
+}

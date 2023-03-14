@@ -53,10 +53,11 @@ func (h *handler) registerRoutes() {
 	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 	v1.GET("/user/:user_id", h.getUser)
+	v1.PUT("/user/:user_id", h.updateUser)
 
 	//for comment
 	v1.POST("/comment", h.createComment)
-	v1.GET("/comment", h.getListComment)
+	//v1.GET("/comment", h.getListComment)
 	v1.PUT("/comment/:comment_id", h.updateComment)
 	v1.DELETE("/comment/:comment_id", h.deleteComment)
 
@@ -65,8 +66,6 @@ func (h *handler) registerRoutes() {
 	v1.PUT("/facility/:facility_id", h.updateFacility)
 
 	//supabase
-	//r := h.http
-
 	v1.POST("/upload", func(ctx *gin.Context) {
 		file, err := ctx.FormFile("avatar")
 		if err != nil {

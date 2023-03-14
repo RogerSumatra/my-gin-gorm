@@ -106,6 +106,7 @@ func (h *handler) getStudio(ctx *gin.Context) {
 		Preload("Comments").
 		Preload("Province").
 		Preload("Regency").
+		Preload("Facility").
 		Model(&studio).
 		Where(&studioParam).
 		First(&studio).Error; err != nil {
@@ -133,8 +134,6 @@ func (h *handler) updateStudio(ctx *gin.Context) {
 	var studio entity.Studio
 	studio.ID = uint(studioParam.StudioID)
 	studio.Name = studioBody.Name
-	//studio.Regency = studioBody.Regency
-	// studio.City = studioBody.City
 	studio.Price = studioBody.Price
 
 	if err := h.db.Model(studio).Where(studioParam).Updates(&studio).Error; err != nil {

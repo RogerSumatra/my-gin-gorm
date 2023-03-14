@@ -85,11 +85,11 @@ func (h *handler) login(ctx *gin.Context) {
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
-		"username":  user.Username,
+		"username": user.Username,
 		//"shortName": user.ShortName,
-		"email":     user.Email,
-		"balance":   user.Balance,
-		"token":     tokenString,
+		"email":   user.Email,
+		"balance": user.Balance,
+		"token":   tokenString,
 	})
 }
 
@@ -117,8 +117,34 @@ func (h *handler) getUser(ctx *gin.Context) {
 
 	//h.SuccessResponse(ctx, http.StatusOK, "user data found", user)
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":  "user data found",
-		"username": user.Username,
+		"message": "user data found",
+		"data":    user,
 	})
 
+}
+
+func (h *handler) updateUser(ctx *gin.Context) {
+	var userParam entity.UserParam
+	if err := h.BindParam(ctx, &userParam); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
+		return
+	}
+
+	var userBody entity.UserBody
+	if err := h.BindBody(ctx, &userBody); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "bad request", nil)
+		return
+	}
+
+	var user entity.User
+	user.ID = uint(userParam.UserID)
+	user.Name = userBody.Name
+	user.ShortName = userBody.ShortName
+	user.PhoneNumber = userBody.PhoneNumber
+
+	if err := h.db.Model(user).Where(userParam).Updates(&user).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "studio data update failed", nil)
+	}
+
+	h.SuccessResponse(ctx, http.StatusOK, "update user data success", user)
 }

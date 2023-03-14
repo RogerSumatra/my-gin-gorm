@@ -16,8 +16,8 @@ type Studio struct {
 type StudioBody struct {
 	Name       string  `json:"name" binding:"required"`
 	Price      float64 `json:"price" binding:"required"`
-	ProvinceID []uint  `json:"provinceID" binding:"required"`
-	RegencyID  []uint  `json:"regencyID" binding:"required"`
+	ProvinceID []uint  `json:"provinceID"`
+	RegencyID  []uint  `json:"regencyID"`
 	//Picture string `json:"picture" binding:"required"` //link foto
 }
 

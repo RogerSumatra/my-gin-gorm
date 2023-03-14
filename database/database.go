@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm/logger"
 
 	"my-gin-gorm/sdk/config"
+	"my-gin-gorm/seed"
 	"my-gin-gorm/src/business/entity"
 )
 
@@ -46,8 +47,12 @@ func Init(conf config.Interface) (Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Regency{}, &entity.City{})
+	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Regency{}, &entity.Province{})
 	sql.Db = db
+
+	if err := seed.SeedProvince(sql.Db); err != nil {
+		panic("Set Seed Failed")
+	}
 
 	return &sql, nil
 }

@@ -9,10 +9,6 @@ import (
 )
 
 func main() {
-
-
-	
-
 	conf := config.Init()
 	if err := conf.Load(".env"); err != nil {
 		panic(err)
@@ -24,6 +20,8 @@ func main() {
 	}
 
 	fmt.Println("Database connected successfully")
+
+	
 
 	//tempat running
 	handler := handler.Init(conf, sql.GetInstance())

@@ -18,13 +18,23 @@ func (h *handler) createStudio(ctx *gin.Context) {
 	var studio entity.Studio
 
 	studio.Name = studioBody.Name
-	//studio.Regency = studioBody.Regency
-	//studio.City = studioBody.City
 	studio.Price = studioBody.Price
-	//tambah
+
+	//find related
+	var province []entity.Province
+	if err := h.db.Find(&province, studioBody.ProvinceID).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "province not found", nil)
+		return
+	}
 
 	if err := h.db.Create(&studio).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
+	}
+
+	//add to studio
+	if err := h.db.Model(&studio).Association("Province").Append(province); err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "province failed to add", nil)
 		return
 	}
 
@@ -45,6 +55,7 @@ func (h *handler) getListStudio(ctx *gin.Context) {
 	var studios []entity.Studio
 
 	if err := h.db.
+		Preload("Province").
 		Model(entity.Studio{}).
 		Limit(int(studioParam.Limit)).
 		Offset(int(studioParam.Offset)).
@@ -81,7 +92,7 @@ func (h *handler) getStudio(ctx *gin.Context) {
 	var studio entity.Studio
 	if err := h.db.
 		Preload("Comments").
-		Preload("Facility").
+		Preload("Province").
 		Model(&studio).
 		Where(&studioParam).
 		First(&studio).Error; err != nil {

@@ -42,9 +42,11 @@ func (h *handler) registerRoutes() {
 	v1 := h.http.Group("api/v1")
 
 	//for studio
-	v1.POST("/studio", h.createStudio)
-	v1.GET("/studio", h.getListStudio)
-	v1.GET("/studio/:studio_id", h.getStudio)
+	v1.POST("/studio", h.createStudio)                 //create
+	v1.GET("/studio", h.getListStudio)                 //unsorted list
+	v1.GET("studio/highest_price", h.sortHighestPrice) //sorted by highest price
+	v1.GET("studio/lowest_price", h.sortLowestPrice)   //sorted by highest price
+	v1.GET("/studio/:studio_id", h.getStudio)          //get studio by id
 	v1.PUT("/studio/:studio_id", h.updateStudio)
 	v1.DELETE("/studio/:studio_id", h.deleteStudio)
 

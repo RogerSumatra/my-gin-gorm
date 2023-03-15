@@ -11,6 +11,7 @@ type Studio struct {
 	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto
 	Facility Facility  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio 1 facility
 	Comments []Comment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio banyak comment
+	Rating   float32   `json:"rating"`
 }
 
 type StudioBody struct {
@@ -19,6 +20,7 @@ type StudioBody struct {
 	ProvinceID []uint  `json:"provinceID"`
 	RegencyID  []uint  `json:"regencyID"`
 	//Picture string `json:"picture" binding:"required"` //link foto
+	Rating float32 `json:"rating"`
 }
 
 type StudioParam struct {

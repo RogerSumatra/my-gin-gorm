@@ -18,8 +18,10 @@ func (h *handler) signUp(ctx *gin.Context) {
 		Username string
 		Email    string
 		Password string
-		//Picture   string
+		Picture  string
 	}
+
+	body.Picture = "https://prtlclzsqdfetjatgvbw.supabase.co/storage/v1/object/public/api-service/blank-profile-picture-gd89c1085b_1280.png"
 
 	if err := h.BindBody(ctx, &body); err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to read body", nil)
@@ -31,7 +33,7 @@ func (h *handler) signUp(ctx *gin.Context) {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to hash password", nil)
 	}
 	//create the user
-	user := entity.User{Username: body.Username, Email: body.Email, Password: string(hash)}
+	user := entity.User{Username: body.Username, Email: body.Email, Password: string(hash), Picture: body.Picture}
 
 	if err := h.db.Create(&user).Error; err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "failed to create user", nil)
@@ -85,11 +87,11 @@ func (h *handler) login(ctx *gin.Context) {
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
+		"ID":       user.ID,
 		"username": user.Username,
-		//"shortName": user.ShortName,
-		"email":   user.Email,
-		"balance": user.Balance,
-		"token":   tokenString,
+		"email":    user.Email,
+		"balance":  user.Balance,
+		"token":    tokenString,
 	})
 }
 
@@ -115,7 +117,6 @@ func (h *handler) getUser(ctx *gin.Context) {
 		return
 	}
 
-	//h.SuccessResponse(ctx, http.StatusOK, "user data found", user)
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "user data found",
 		"data":    user,

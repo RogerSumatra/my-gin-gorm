@@ -103,7 +103,7 @@ func (h *handler) getStudio(ctx *gin.Context) {
 
 	var studio entity.Studio
 	if err := h.db.
-		Preload("Comments").
+		Preload("Comments.User").
 		Preload("Province").
 		Preload("Regency").
 		Preload("Facility").
@@ -158,4 +158,86 @@ func (h *handler) deleteStudio(ctx *gin.Context) {
 	}
 
 	h.SuccessResponse(ctx, http.StatusOK, "delete studio data success", nil)
+}
+
+func (h *handler) sortHighestPrice(ctx *gin.Context) {
+	var studioParam entity.StudioParam
+
+	if err := h.BindParam(ctx, &studioParam); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid request body", nil)
+		return
+	}
+
+	studioParam.FormatPagination()
+
+	var studios []entity.Studio
+
+	if err := h.db.
+		Preload("Province").
+		Preload("Regency").
+		Order("price desc").
+		Model(entity.Studio{}).
+		Limit(int(studioParam.Limit)).
+		Offset(int(studioParam.Offset)).
+		Find(&studios).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
+
+	}
+
+	var totalElements int64
+
+	if err := h.db.
+		Model(entity.Studio{}).
+		Limit(int(studioParam.Limit)).
+		Offset(int(studioParam.Offset)).
+		Count(&totalElements).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
+	}
+
+	studioParam.ProcessPagination(totalElements)
+
+	h.SuccessResponse(ctx, http.StatusOK, "Successfully get list studios by highest price", studios)
+}
+
+func (h *handler) sortLowestPrice(ctx *gin.Context) {
+	var studioParam entity.StudioParam
+
+	if err := h.BindParam(ctx, &studioParam); err != nil {
+		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid request body", nil)
+		return
+	}
+
+	studioParam.FormatPagination()
+
+	var studios []entity.Studio
+
+	if err := h.db.
+		Preload("Province").
+		Preload("Regency").
+		Order("price asc").
+		Model(entity.Studio{}).
+		Limit(int(studioParam.Limit)).
+		Offset(int(studioParam.Offset)).
+		Find(&studios).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
+
+	}
+
+	var totalElements int64
+
+	if err := h.db.
+		Model(entity.Studio{}).
+		Limit(int(studioParam.Limit)).
+		Offset(int(studioParam.Offset)).
+		Count(&totalElements).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+		return
+	}
+
+	studioParam.ProcessPagination(totalElements)
+
+	h.SuccessResponse(ctx, http.StatusOK, "Successfully get list studios by lowest price", studios)
 }

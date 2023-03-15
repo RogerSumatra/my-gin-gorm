@@ -50,6 +50,7 @@ func Init(conf config.Interface) (Interface, error) {
 	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{})
 	sql.Db = db
 
+	//for seed
 	if err := seed.SeedProvince(sql.Db); err != nil {
 		panic("Set Province Seed Failed")
 	}

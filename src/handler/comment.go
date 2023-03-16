@@ -30,42 +30,42 @@ func (h *handler) createComment(ctx *gin.Context) {
 	h.SuccessResponse(ctx, http.StatusOK, "comment created successfully", nil)
 }
 
-func (h *handler) getListComment(ctx *gin.Context) {
-	var commentParam entity.CommentParam
+// func (h *handler) getListComment(ctx *gin.Context) {
+// 	var commentParam entity.CommentParam
 
-	if err := h.BindParam(ctx, &commentParam); err != nil {
-		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid request body", nil)
-		return
-	}
+// 	if err := h.BindParam(ctx, &commentParam); err != nil {
+// 		h.ErrorResponse(ctx, http.StatusBadRequest, "invalid request body", nil)
+// 		return
+// 	}
 
-	commentParam.FormatPagination()
+// 	commentParam.FormatPagination()
 
-	var comments []entity.Comment
+// 	var comments []entity.Comment
 
-	if err := h.db.
-		Model(entity.Comment{}).
-		Limit(int(commentParam.Limit)).
-		Offset(int(commentParam.Offset)).
-		Find(&comments).Error; err != nil {
-		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
-		return
-	}
+// 	if err := h.db.
+// 		Model(entity.Comment{}).
+// 		Limit(int(commentParam.Limit)).
+// 		Offset(int(commentParam.Offset)).
+// 		Find(&comments).Error; err != nil {
+// 		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+// 		return
+// 	}
 
-	var totalElements int64
+// 	var totalElements int64
 
-	if err := h.db.
-		Model(entity.Comment{}).
-		Limit(int(commentParam.Limit)).
-		Offset(int(commentParam.Offset)).
-		Count(&totalElements).Error; err != nil {
-		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
-		return
-	}
+// 	if err := h.db.
+// 		Model(entity.Comment{}).
+// 		Limit(int(commentParam.Limit)).
+// 		Offset(int(commentParam.Offset)).
+// 		Count(&totalElements).Error; err != nil {
+// 		h.ErrorResponse(ctx, http.StatusInternalServerError, err.Error(), nil)
+// 		return
+// 	}
 
-	commentParam.ProcessPagination(totalElements)
+// 	commentParam.ProcessPagination(totalElements)
 
-	h.SuccessResponse(ctx, http.StatusOK, "successfully get comment list", comments)
-}
+// 	h.SuccessResponse(ctx, http.StatusOK, "successfully get comment list", comments)
+// }
 
 func (h *handler) updateComment(ctx *gin.Context) {
 	var commentParam entity.CommentParam

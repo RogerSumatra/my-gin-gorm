@@ -114,6 +114,9 @@ func (h *handler) getStudio(ctx *gin.Context) {
 		return
 	}
 
+	// var cart entity.Cart
+	// cart.WalletUser = h.db.
+
 	h.SuccessResponse(ctx, http.StatusOK, "studio data found", studio)
 
 }

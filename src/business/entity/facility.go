@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Facility struct {
 	gorm.Model
-	//Picture  string `json:"picture" gorm:"varchar(255)"` //berupa link foto. supabase bingung
+	//Picture  string `json:"picture" gorm:"varchar(255)"` //berupa link foto.
 	Content  string `json:"content" gorm:"type:text"`
 	StudioID uint 
 
@@ -13,7 +13,7 @@ type Facility struct {
 type FacilityBody struct {
 	StudioID uint `json:"studio_id" binding:"required"`
 	Content string `json:"content" binding:"required"`
-	//Picture  string `json:"picture" binding:"required"` //berupa link foto. supabase bingung.
+	//Picture  string `json:"picture" binding:"required"` //berupa link foto.
 }
 
 type FacilityParam struct {

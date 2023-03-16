@@ -140,7 +140,7 @@ func (h *handler) updateUser(ctx *gin.Context) {
 	var user entity.User
 	user.ID = uint(userParam.UserID)
 	user.Name = userBody.Name
-	user.ShortName = userBody.ShortName
+	user.Picture = userBody.Picture
 	user.PhoneNumber = userBody.PhoneNumber
 
 	if err := h.db.Model(user).Where(userParam).Updates(&user).Error; err != nil {

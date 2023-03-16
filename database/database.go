@@ -47,7 +47,7 @@ func Init(conf config.Interface) (Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{})
+	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{}, &entity.Hour{})
 	sql.Db = db
 
 	//for seed
@@ -56,6 +56,9 @@ func Init(conf config.Interface) (Interface, error) {
 	}
 	if err := seed.SeedRegency(sql.Db); err != nil {
 		panic("Set Regency Seed Failed")
+	}
+	if err := seed.SeedHour(sql.Db); err != nil {
+		panic("Set Hour Seed Failed")
 	}
 
 	return &sql, nil

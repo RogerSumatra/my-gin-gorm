@@ -8,6 +8,7 @@ type Studio struct {
 	Price    float64    `json:"price"`
 	Regency  []Regency  `gorm:"many2many:studio_regency;"`
 	Province []Province `gorm:"many2many:studio_province;"`
+	//Hour     []Hour     `gorm:"many2many:studio_hour;"`
 	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto
 	Facility Facility  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio 1 facility
 	Comments []Comment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio banyak comment
@@ -27,3 +28,8 @@ type StudioParam struct {
 	StudioID int64 `uri:"studio_id" gorm:"column:id"`
 	PaginationParam
 }
+
+// type Cart struct {
+// 	Jam string
+// 	WalletUser float64
+// }

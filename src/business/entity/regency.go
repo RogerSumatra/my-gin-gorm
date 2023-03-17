@@ -1,15 +1,15 @@
 package entity
 
 var (
-	MalangRegency   = "Malang"
-	SurabayaRegency = "Surabaya"
-	BatuRegency     = "Batu"
-	SemarangRegency = "Semarang"
-	SoloRegency     = "Solo"
-	MagelangRegency = "Magelang"
-	BandungRegency  = "Bandung"
-	CimahiRegency   = "Cimahi"
-	BekasiRegency   = "Bekasi"
+	MalangRegency   = "Malang" //1
+	SurabayaRegency = "Surabaya" //2
+	BatuRegency     = "Batu" //3
+	SemarangRegency = "Semarang" //4
+	SoloRegency     = "Solo" //5
+	MagelangRegency = "Magelang" //6
+	BandungRegency  = "Bandung" //7
+	CimahiRegency   = "Cimahi" //8
+	BekasiRegency   = "Bekasi" //9
 )
 
 type Regency struct {

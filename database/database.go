@@ -51,18 +51,19 @@ func Init(conf config.Interface) (Interface, error) {
 	sql.Db = db
 
 	//for seed
-	if err := seed.SeedProvince(sql.Db); err != nil {
-		panic("Set Province Seed Failed")
-	}
-	if err := seed.SeedRegency(sql.Db); err != nil {
-		panic("Set Regency Seed Failed")
-	}
-	if err := seed.SeedHour(sql.Db); err != nil {
-		panic("Set Hour Seed Failed")
-	}
-	if err := seed.SeedStudio(sql.Db); err != nil {
+	if err := seed.SeedStudio(db); err != nil {
 		panic("Set Studio Seed Failed")
 	}
+	if err := seed.SeedRegency(db); err != nil {
+		panic("Set Regency Seed Failed")
+	}
+	if err := seed.SeedProvince(db); err != nil {
+		panic("Set Province Seed Failed")
+	}
+	if err := seed.SeedHour(db); err != nil {
+		panic("Set Hour Seed Failed")
+	}
+	
 	return &sql, nil
 }
 

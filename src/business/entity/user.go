@@ -11,7 +11,7 @@ type User struct {
 	Email       string  `json:"email" gorm:"type:varchar(50); UNIQUE; NOT NULL"`
 	Password    string  `json:"password" gorm:"type:varchar(250); NOT NULL"`
 	Picture     string  `json:"picture" gorm:"varchar(255)"` //berupa link foto. saat signup foto default kayak no profile
-	PhoneNumber string  `json:"phoneNumber" gorm:"type:varchar(50)"`
+	PhoneNumber string  `json:"phoneNumber" gorm:"type:varchar(50)"` 
 	Balance     float32 `json:"balance"`
 }
 

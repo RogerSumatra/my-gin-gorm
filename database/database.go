@@ -47,7 +47,7 @@ func Init(conf config.Interface) (Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{}, &entity.Hour{})
+	db.AutoMigrate(entity.User{}, entity.Studio{}, &entity.Comment{}, &entity.Facility{}, &entity.Province{}, &entity.Regency{}, entity.Hour{}, &entity.Cart{})
 	sql.Db = db
 
 	//for seed

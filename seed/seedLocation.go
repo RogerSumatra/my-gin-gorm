@@ -39,7 +39,7 @@ func SeedRegency(sql *gorm.DB) error {
 	regency = []entity.Regency{
 		{
 			Name: entity.MalangRegency,
-		},
+		}, 
 		{
 			Name: entity.SurabayaRegency,
 		},

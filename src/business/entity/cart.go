@@ -1,28 +1,36 @@
 package entity
 
-type Payment struct {
-	Name string 
-	PhoneNumber int 
-	Email string
-	BalanceUser float64
-
-	Status string
-	//selesain cart and review
-
-
-}
+import "gorm.io/gorm"
 
 type Cart struct {
-	ReviewID int
-	Review Review
-	Name string
-	PhoneNumber int
-	Email string
-	StudioPrice float64
-	Tax float64
-	Total float64
+	gorm.Model
+	NameContact string `json:"nameContact"`
+	PhoneNumber string `json:"phoneNumber"`
+	Email       string `json:"iniEmail"`
+	UserID      uint
+	User        User
+	StudioID    uint
+	Studio      Studio
+	HourID      uint
+	Hour        Hour
 }
 
-type Review struct {
-	CartTotal float64
+type CartRespond struct { //nampilin
+	StudioID       uint
+	StudioTax      float64
+	StudioCheckIn  string
+	StudioCheckOut string
+	StudioPrice    float64
+	Total          float64
+}
+
+type CartRequest struct {
+	NameContact string `json:"nameContact" binding:"required"`
+	PhoneNumber string `json:"phoneNumber" binding:"required"`
+	Email       string `json:"iniEmail" binding:"required"`
+}
+
+type CartParam struct {
+	CartID int64 `uri:"cart_id" gorm:"column:id"`
+	PaginationParam
 }

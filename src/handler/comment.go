@@ -15,8 +15,9 @@ func (h *handler) createComment(ctx *gin.Context) {
 		return
 	}
 
+	UserID := uint(ctx.MustGet("sub").(uint))
 	comment := entity.Comment{
-		UserID:   commentBody.UserID,
+		UserID:   UserID,
 		StudioID: commentBody.StudioID,
 		Content:  commentBody.Content,
 		Rating:   commentBody.Rating,
@@ -80,9 +81,10 @@ func (h *handler) updateComment(ctx *gin.Context) {
 		return
 	}
 
+	UserID := uint(ctx.MustGet("sub").(uint))
 	var comment entity.Comment
 	comment.ID = uint(commentParam.CommentID)
-	comment.UserID = commentBody.UserID
+	comment.UserID = UserID
 	comment.StudioID = commentBody.StudioID
 	comment.Content = commentBody.Content
 	comment.Rating = commentBody.Rating

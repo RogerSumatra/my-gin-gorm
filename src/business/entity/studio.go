@@ -8,11 +8,12 @@ type Studio struct {
 	Price    float64    `json:"price"`
 	Regency  []Regency  `gorm:"many2many:studio_regency;"`
 	Province []Province `gorm:"many2many:studio_province;"`
-	//Hour     []Hour     `gorm:"many2many:studio_hour;"`
+	Hour     []Hour		`gorm:"many2many:studio_hour;"`
 	//Picture  string    `json:"picture" gorm:"varchar(255)"` //link foto
 	Facility Facility  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio 1 facility
 	Comments []Comment `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` //1 studio banyak comment
 	Rating   float32   `json:"rating"`
+	Discount float64   `json:"discount"`
 }
 
 type StudioBody struct {
@@ -21,7 +22,8 @@ type StudioBody struct {
 	ProvinceID []uint  `json:"provinceID"`
 	RegencyID  []uint  `json:"regencyID"`
 	//Picture string `json:"picture" binding:"required"` //link foto
-	Rating float32 `json:"rating"`
+	Rating   float32   `json:"rating"`
+	Discount float64   `json:"discount"`
 }
 
 type StudioParam struct {

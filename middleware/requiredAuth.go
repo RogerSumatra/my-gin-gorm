@@ -1,12 +1,9 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"os"
-	"time"
-
-	"my-gin-gorm/src/business/entity"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -15,43 +12,44 @@ import (
 
 func JwtMiddleware(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		// get cookie off req
-		tokenString, err := ctx.Cookie("Authorization")
+		// req token
+		tokenString := ctx.Request.Header.Get("Authorization")
 
-		if err != nil {
-			ctx.AbortWithStatus(http.StatusUnauthorized)
+		if tokenString == "" {
+			ctx.JSON(http.StatusBadRequest, "token not fouund")
+			ctx.Abort()
+			return
 		}
 		//decode/validate it
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-			}
-
-			return []byte(os.Getenv("SECRET")), nil
-		})
+		tokenString = strings.ReplaceAll(tokenString, "Bearer ", "")
+		token, err := jwt.Parse(tokenString, ekstractToken)
+		if err != nil {
+			ctx.JSON(http.StatusUnauthorized, err.Error())
+			ctx.Abort()
+			return
+		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			//check the exp
-			if float64(time.Now().Unix()) > claims["exp"].(float64) {
-				ctx.AbortWithStatus(http.StatusUnauthorized)
-			}
-
-			//find the user with token subctx
-			var user entity.User
-			db.First(&user, claims["sub"])
-
-			if user.ID == 0 {
-				ctx.AbortWithStatus(http.StatusUnauthorized)
-			}
+			user := uint(claims["sub"].(float64))
 
 			//attach to req
-			ctx.Set("user", user)
+			ctx.Set("sub", user)
 			//continue
 			ctx.Next()
 
-			fmt.Println(claims["foo"], claims["nbf"])
-		} else {
-			ctx.AbortWithStatus(http.StatusUnauthorized)
+			return
+
 		}
+		ctx.JSON(http.StatusForbidden, "invalid token")
+		ctx.Abort()
 	}
+}
+
+func ekstractToken(token *jwt.Token) (interface{}, error) {
+	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		return nil, jwt.ErrSignatureInvalid
+	}
+
+	return []byte(os.Getenv("SECRET")), nil
+
 }

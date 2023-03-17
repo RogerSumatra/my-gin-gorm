@@ -69,7 +69,7 @@ func (h *handler) login(ctx *gin.Context) {
 	}
 	//generate a jwt token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID,
+		"sub": int(user.ID),
 		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})
 
@@ -82,8 +82,8 @@ func (h *handler) login(ctx *gin.Context) {
 	}
 
 	//set cookie
-	ctx.SetSameSite(http.SameSiteLaxMode)
-	ctx.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+	// ctx.SetSameSite(http.SameSiteLaxMode)
+	// ctx.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 
 	//sent back
 	ctx.JSON(http.StatusOK, gin.H{
@@ -96,7 +96,13 @@ func (h *handler) login(ctx *gin.Context) {
 }
 
 func (h *handler) validate(ctx *gin.Context) {
-	user, _ := ctx.Get("user")
+	UserID := uint(ctx.MustGet("sub").(uint))
+	var user entity.User
+
+	if err := h.db.Model(&user).Where(&UserID).First(&user).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "couldn't get user data", nil)
+		return
+	}
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": user,
@@ -125,11 +131,11 @@ func (h *handler) getUser(ctx *gin.Context) {
 }
 
 func (h *handler) updateUser(ctx *gin.Context) {
-	var userParam entity.UserParam
-	if err := h.BindParam(ctx, &userParam); err != nil {
-		h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
-		return
-	}
+	// var userParam entity.UserParam
+	// if err := h.BindParam(ctx, &userParam); err != nil {
+	// 	h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
+	// 	return
+	// }
 
 	var userBody entity.UserBody
 	if err := h.BindBody(ctx, &userBody); err != nil {
@@ -137,14 +143,15 @@ func (h *handler) updateUser(ctx *gin.Context) {
 		return
 	}
 
+	UserID := uint(ctx.MustGet("sub").(uint))
 	var user entity.User
-	user.ID = uint(userParam.UserID)
+	user.ID = uint(UserID)
 	user.Name = userBody.Name
 	user.Picture = userBody.Picture
 	user.PhoneNumber = userBody.PhoneNumber
 
-	if err := h.db.Model(user).Where(userParam).Updates(&user).Error; err != nil {
-		h.ErrorResponse(ctx, http.StatusInternalServerError, "studio data update failed", nil)
+	if err := h.db.Model(user).Where(UserID).Updates(&user).Error; err != nil {
+		h.ErrorResponse(ctx, http.StatusInternalServerError, "user data update failed", nil)
 	}
 
 	h.SuccessResponse(ctx, http.StatusOK, "update user data success", user)

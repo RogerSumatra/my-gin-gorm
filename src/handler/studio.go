@@ -19,6 +19,7 @@ func (h *handler) createStudio(ctx *gin.Context) {
 
 	studio.Name = studioBody.Name
 	studio.Price = studioBody.Price
+	studio.Picture = studioBody.Picture
 
 	//find related
 	var province []entity.Province

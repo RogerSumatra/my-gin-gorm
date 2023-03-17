@@ -60,7 +60,9 @@ func Init(conf config.Interface) (Interface, error) {
 	if err := seed.SeedHour(sql.Db); err != nil {
 		panic("Set Hour Seed Failed")
 	}
-
+	if err := seed.SeedStudio(sql.Db); err != nil {
+		panic("Set Studio Seed Failed")
+	}
 	return &sql, nil
 }
 

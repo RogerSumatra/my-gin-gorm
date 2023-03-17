@@ -55,7 +55,7 @@ func (h *handler) registerRoutes() {
 	v1.POST("/user/login", h.login)
 	v1.GET("/validate", middleware.JwtMiddleware(h.db), h.validate)
 	v1.GET("/user/:user_id", h.getUser)
-	v1.PUT("/user/:user_id", middleware.JwtMiddleware(h.db), h.updateUser)
+	v1.PUT("/user/update", middleware.JwtMiddleware(h.db), h.updateUser)
 
 	//for comment
 	v1.POST("/comment", middleware.JwtMiddleware(h.db), h.createComment)
@@ -67,7 +67,6 @@ func (h *handler) registerRoutes() {
 	v1.PUT("/facility/:facility_id", h.updateFacility)
 
 	//payment
-	
 
 	//supabase
 	v1.POST("/upload", func(ctx *gin.Context) {

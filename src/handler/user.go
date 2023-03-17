@@ -131,12 +131,6 @@ func (h *handler) getUser(ctx *gin.Context) {
 }
 
 func (h *handler) updateUser(ctx *gin.Context) {
-	// var userParam entity.UserParam
-	// if err := h.BindParam(ctx, &userParam); err != nil {
-	// 	h.ErrorResponse(ctx, http.StatusBadRequest, "bad param", nil)
-	// 	return
-	// }
-
 	var userBody entity.UserBody
 	if err := h.BindBody(ctx, &userBody); err != nil {
 		h.ErrorResponse(ctx, http.StatusBadRequest, "bad request", nil)
